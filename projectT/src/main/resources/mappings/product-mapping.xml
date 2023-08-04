@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PRODUCT">
+ 
+ <insert id="INSERT" parameterType="product"  >
+  insert into productTBL(productId,productName,productPrice,productDesc,productImg) 
+  values (seq_productTBL.nextval,#{productName},#{productPrice},#{productDesc},#{productImgStr}) 
+</insert>
+ 
+<insert id="DELETE" parameterType="product"  >
+  delete from productTBL 
+  where productId = #{productId}
+</insert>
+ 
+ 
+ <select id="SELECTALL" resultType="product" >
+   select  productId, productName, productPrice, 
+           productDesc, productImg as productImgStr ,
+           productDate  
+   from productTBL
+ </select>
+ 
+ <select id="SELECTONE" resultType="product" >
+   select  productId, productName, productPrice, 
+           productDesc, productImg as productImgStr ,
+           productDate  
+   		   from productTBL
+   where  productId = #{productId} 
+ </select>
+<select id="selectReview" resultType="product">
+    SELECT review_id as reviewId,
+    review_text as reviewText, 
+    review_date as reviewDate, 
+    star_rating as starRating 
+    FROM product_reviews 
+    WHERE product_id = #{productId} 
+</select>
+
+
+ <insert id="insertReview" parameterType="product">
+    INSERT INTO product_reviews (review_id, product_id, review_text, review_date, star_rating)
+    VALUES (#{reviewId}, #{productId}, #{reviewText}, #{reviewDate}, #{starRating})
+</insert>
+</mapper>	

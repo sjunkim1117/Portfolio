@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ShopDao">
+	  
+ <insert id="INSERT" parameterType="member"  >
+   insert into MEMBER_TBL_02(custno,custname, phone, zipcode, address, address2,joindate, id, password   )
+   values (#{custno} ,#{custname}, #{phone}, #{zipcode}, #{address}, #{address2},#{joindateStr}, #{id}, #{password} )
+    
+ </insert>
+ 
+ <update id="UPDATE" parameterType="member"  >
+   update MEMBER_TBL_02 set custname=#{custname}, 
+       phone=#{phone}, zipcode=#{zipcode}, 
+       address=#{address}, address2=#{address2},
+       joindate=#{joindateStr}
+       where custno =#{custno}
+
+ </update>
+ 
+ <delete id="DELETE" parameterType="member" >
+ 	delete from MEMBER_TBL_02 where custno=#{custno}
+ </delete>
+
+ <select id="SELECTALL"  parameterType="member" resultType="member" >
+   select  *  from MEMBER_TBL_02
+   where 1=1   
+   <if test="ch1=='custname'" >
+     and custname like '%'||#{ch2}||'%' 
+   </if>
+   <if test="ch1=='phone'" >
+     and phone like '%'||#{ch2}||'%' 
+   </if>
+   <if test="ch1=='address'" >
+      and address like '%'||#{ch2}||'%' 
+   </if>
+   order  by  custno desc
+ </select>
+ 
+  <select id="EDIT"  parameterType="member" resultType="member" >
+   select  *  from MEMBER_TBL_02 where custno=#{custno}
+ 
+ </select>
+ 
+ <select id="IDCK"  parameterType="member" resultType="String" >
+   select  id  from MEMBER_TBL_02 where id=#{id}
+ </select>
+
+
+ <select id="CUSTNO"   resultType="int" > 
+   select max(custno)+ 1 as  custno from MEMBER_TBL_02 
+ </select>
+ 
+ <select id="LOGIN"  parameterType="member" resultType="member" >
+   select  *  from MEMBER_TBL_02 where id=#{id}
+ </select>
+  
+</mapper>	
